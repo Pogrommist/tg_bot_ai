@@ -38,6 +38,12 @@ const handleTextMessage = async ctx  => {
   userSession[userId].messages.push({ role: openai.roles.ASSISTANT, content: response.content })
   
   await ctx.reply(response.content, { reply_to_message_id: ctx.message.message_id })
+  if (userSession[userId].messages.length >= 3) clearCtx(ctx, userSession, userId)
+}
+
+const clearCtx = async (ctx, userSession, userId) => {
+  userSession[userId] = { messages: [] }
+  ctx.reply("Слишком много сообщений. Чищу историю 🧽", { reply_to_message_id: ctx.message.message_id })
 }
 
 bot.command('start', async (ctx) => {
