@@ -17,7 +17,8 @@ bot.command('new', async ctx => {
 })
 
 bot.on(message('text'), async ctx => {
-  if (!ctx.message.text.includes('@strmrg_bot') && !ctx.message?.reply_to_message) return
+  const isReployToBot = ctx.message?.reply_to_message?.from?.is_bot
+  if (!ctx.message.text.includes('@strmrg_bot') && !isReployToBot) return
 
   const userId = ctx.message.from.id
   if (!userSession[userId]) {
